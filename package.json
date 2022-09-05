@@ -1,0 +1,24 @@
+{
+  "name": "curso-node-baltaio",
+  "version": "1.0.0",
+  "description": "Repositório seguindo as aulas do curso do Balta.IO",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EduardoSilva09/curso-node-baltaio.git"
+  },
+  "keywords": [
+    "Node",
+    "JS",
+    "JavaScript"
+  ],
+  "author": "EduardoSilva09",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EduardoSilva09/curso-node-baltaio/issues"
+  },
+  "homepage": "https://github.com/EduardoSilva09/curso-node-baltaio#readme"
+}
