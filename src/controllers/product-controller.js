@@ -81,11 +81,19 @@ exports.put = (req, res, next) => {
                 data: e
             })
         })
-
 }
 
 exports.del = (req, res, next) => {
-    res.status(200).send(
-        req.body
-    )
+    Product.findByIdAndRemove(req.body.id)
+        .then(x => {
+            res.status(200).send({
+                message: 'Produto removido com sucesso!'
+            })
+        })
+        .catch(e => {
+            res.status(400).send({
+                message: 'Falha ao remover o produto.',
+                data: e
+            })
+        })
 }
