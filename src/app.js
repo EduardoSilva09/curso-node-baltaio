@@ -5,38 +5,13 @@ const bodyParser = require('body-parser')
 
 const app = express()
 const router = express.Router()
+const indexRoutes = require('./routes/index-routes')
+const productsRoutes = require('./routes/product-routes')
 
-app.use(bodyParser.json())// todo o conteúdo será convertido para json
+app.use(bodyParser.json()) // todo o conteúdo será convertido para json
 app.use(bodyParser.urlencoded({ extended: false }))
 
-const route = router.get('/', (req, res, next) => {
-    res.status(200).send({
-        title: "Node API: Curso Balta",
-        version: "0.0.1"
-    })
-})
-
-const create = router.post('/', (req, res, next) => {
-    res.status(201).send(req.body)
-})
-
-const put = router.put('/:id', (req, res, next) => {
-    const id = req.params.id
-    res.status(201).send({
-        id: id,
-        item: req.body
-    })
-})
-
-const del = router.delete('/', (req, res, next) => {
-    res.status(201).send(
-        req.body
-    )
-})
-
-app.use('/', route)
-app.use('/products', create)
-app.use('/products', put)
-app.use('/products', del)
+app.use('/', indexRoutes)
+app.use('/products', productsRoutes)
 
 module.exports = app
