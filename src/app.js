@@ -8,6 +8,7 @@ const app = express()
 const router = express.Router()
 
 mongoose.connect('')
+const Product = require('./models/product')
 
 const indexRoutes = require('./routes/index-routes')
 const productsRoutes = require('./routes/product-routes')
