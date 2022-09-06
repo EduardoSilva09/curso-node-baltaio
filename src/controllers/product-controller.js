@@ -38,6 +38,18 @@ exports.getById = (req, res, next) => {
         })
 }
 
+exports.getByTag = (req, res, next) => {
+    Product.find({
+        tags: req.params.tag,
+        active: true
+    }).then(data => {
+        res.status(200).send(data)
+    })
+        .catch(e => {
+            res.status(400).send({ message: 'Falha ao listar produto.', data: e })
+        })
+}
+
 exports.post = (req, res, next) => {
     const product = new Product(req.body)
     product.save()
