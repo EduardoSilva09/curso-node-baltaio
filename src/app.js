@@ -21,14 +21,16 @@ const Customer = require('./models/customer')
 const Order = require('./models/order')
 
 const indexRoutes = require('./routes/index-routes')
-const productsRoutes = require('./routes/product-routes')
 const customersRoutes = require('./routes/customer-routes')
+const ordersRoutes = require('./routes/order-routes')
+const productsRoutes = require('./routes/product-routes')
 
 app.use(bodyParser.json()) // todo o conteúdo será convertido para json
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use('/', indexRoutes)
-app.use('/products', productsRoutes)
 app.use('/customers', customersRoutes)
+app.use('/orders', ordersRoutes)
+app.use('/products', productsRoutes)
 
 module.exports = app
