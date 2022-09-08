@@ -15,7 +15,10 @@ mongoose
         console.log('erro ao conectar a base de dados. ', e);
     })
 
+// Carrega os Models
 const Product = require('./models/product')
+const Customer = require('./models/customer')
+
 
 const indexRoutes = require('./routes/index-routes')
 const productsRoutes = require('./routes/product-routes')
