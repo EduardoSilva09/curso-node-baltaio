@@ -44,4 +44,4 @@ ValidationContract.prototype.clear = () => {
     errors = []
 }
 
-exports.modules = ValidationContract
+module.exports = ValidationContract

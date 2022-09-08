@@ -6,8 +6,15 @@ const mongoose = require('mongoose')
 
 const app = express()
 const router = express.Router()
+const connectionString = 'mongodb://localhost:27017/ndstr?readPreference=primary&ssl=false'
 
-mongoose.connect('mongodb+srv://eduardo09:eduardo123@ndstr.kpdfjif.mongodb.net/?retryWrites=true&w=majority')
+mongoose
+    .connect(connectionString)
+    .then(console.log('conectado a base de dados'))
+    .catch(e => {
+        console.log('erro ao conectar a base de dados. ', e);
+    })
+
 const Product = require('./models/product')
 
 const indexRoutes = require('./routes/index-routes')
