@@ -18,6 +18,7 @@ mongoose
 // Carrega os Models
 const Product = require('./models/product')
 const Customer = require('./models/customer')
+const Order = require('./models/order')
 
 
 const indexRoutes = require('./routes/index-routes')
