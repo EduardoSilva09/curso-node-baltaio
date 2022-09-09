@@ -79,3 +79,33 @@ exports.authenticate = async (req, res, next) => {
     }
 }
 
+exports.refreshToken = async (req, res, next) => {
+    try {
+        const token = authService.getToken(req)
+        const data = await authService.decodeToken(token);
+
+        const customer = await repository.getById(data.id)
+
+        if (!customer) {
+            res.status(404).send({
+                message: 'Cliente não encontrado'
+            })
+            return
+        }
+
+        const tokenData = await authService.generateToken({
+            id: customer._id,
+            name: customer.name,
+            email: customer.email,
+        })
+
+        res.status(201).send({
+            token: tokenData,
+            name: customer.name,
+            email: customer.email,
+        })
+    }
+    catch (e) {
+        res.status(400).send({ message: 'Authenticação falhou.', data: e })
+    }
+}
