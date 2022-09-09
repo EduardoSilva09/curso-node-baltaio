@@ -4,6 +4,7 @@ const md5 = require('md5')
 const ValidationContract = require('../validators/validator')
 const repository = require('../repositories/customer-repository.js')
 const emailService = require('../services/email-service')
+const authService = require('../services/auth-service')
 
 exports.get = async (req, res, next) => {
     try {
@@ -44,6 +45,36 @@ exports.post = async (req, res, next) => {
     }
     catch (e) {
         res.status(400).send({ message: 'Falha ao cadastrar o cliente.', data: e })
+    }
+}
+
+exports.authenticate = async (req, res, next) => {
+    try {
+        const customer = await repository.authenticate({
+            email: req.body.email,
+            password: md5(req.body.password + global.SALT_KEY)
+        })
+
+        if (!customer) {
+            res.status(404).send({
+                message: 'Usuário ou senha inválidos'
+            })
+            return
+        }
+
+        const token = await authService.generateToken({
+            name: customer.name,
+            email: customer.email,
+        })
+
+        res.status(201).send({
+            token: token,
+            name: customer.name,
+            email: customer.email,
+        })
+    }
+    catch (e) {
+        res.status(400).send({ message: 'Authenticação falhou.', data: e })
     }
 }
 
