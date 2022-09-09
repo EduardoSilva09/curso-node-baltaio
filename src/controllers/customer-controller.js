@@ -1,8 +1,9 @@
 'use strict'
 
+const md5 = require('md5')
 const ValidationContract = require('../validators/validator')
 const repository = require('../repositories/customer-repository.js')
-const md5 = require('md5')
+const emailService = require('../services/email-service')
 
 exports.get = async (req, res, next) => {
     try {
@@ -35,6 +36,10 @@ exports.post = async (req, res, next) => {
         }
 
         await repository.create(data)
+        emailService.send(
+            data.email,
+            'Bem vindo ao Node Store',
+            global.EMAIL_TMPL.replace('{0}', data.name))
         res.status(201).send({ message: 'Cliente cadastrado com sucesso!' })
     }
     catch (e) {
