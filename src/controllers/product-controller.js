@@ -1,7 +1,10 @@
 'use strict'
 
+const azure = require('azure-storage')
 const ValidationContract = require('../validators/validator')
 const repository = require('../repositories/product-repository.js')
+const config = require('../config')
+const guid = require('guid')
 
 exports.get = async (req, res, next) => {
     try {
@@ -54,7 +57,35 @@ exports.post = async (req, res, next) => {
     }
 
     try {
-        await repository.create(req.body)
+        // Cria o blob service 
+        const blobSvc = azure.createBlobService(config.containerConnectionString)
+
+        let filename = guid.raw().toString() + '.jpg'
+        let rawdata = req.body.image
+        let matches = rawdata.match(/^data:([A-Za-z-+\/]+);basec6,(.+)$/)
+        let type = matches[1]
+        let buffer = new Buffer(matches[2], 'base64')
+
+        //salva a imagem
+        await blobSvc.createBlockBlobFromText('product-images', filename, buffer, {
+            contentType: type
+        }, function (error, result, response) {
+            if (error) {
+                filename = 'default-product.png'
+            }
+        })
+
+        const data = {
+            title: req.body.title,
+            slug: req.body.slug,
+            description: req.body.description,
+            price: req.body.price,
+            active: true,
+            tags: req.body.tags,
+            image: 'https://apinodestore.blob.core.windows.net/product-images/' + filename,
+        }
+
+        await repository.create(data)
         res.status(201).send({ message: 'Produto cadastrado com sucesso!' })
     }
     catch (e) {
