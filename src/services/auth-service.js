@@ -9,8 +9,13 @@ exports.decodeToken = async (token) => {
     const data = await jwt.verify(token, global.SALT_KEY)
     return data
 }
+
+exports.getToken = (req) => {
+    return req.body.token || req.query.token || req.headers['x-access-token']
+}
+
 exports.authorize = (req, res, next) => {
-    const token = req.body.token || req.query.token || req.headers['x-access-token']
+    const token = this.getToken(req)
     if (!token) {
         res.status(401).json({
             message: 'Acesso restrito'

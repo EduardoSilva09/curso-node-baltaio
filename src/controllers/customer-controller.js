@@ -63,6 +63,7 @@ exports.authenticate = async (req, res, next) => {
         }
 
         const token = await authService.generateToken({
+            id: customer._id,
             name: customer.name,
             email: customer.email,
         })
