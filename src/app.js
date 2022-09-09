@@ -3,13 +3,13 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const config = require('./config')
 
 const app = express()
 const router = express.Router()
-const connectionString = 'mongodb://localhost:27017/ndstr?readPreference=primary&ssl=false'
 
 mongoose
-    .connect(connectionString)
+    .connect(config.connectionString)
     .then(console.log('conectado a base de dados'))
     .catch(e => {
         console.log('erro ao conectar a base de dados. ', e);
